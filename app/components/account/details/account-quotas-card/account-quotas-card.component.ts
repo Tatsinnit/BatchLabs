@@ -4,7 +4,7 @@ import {
 import { Subscription } from "rxjs";
 
 import { AccountResource, BatchQuotas } from "app/models";
-import { ElectronShell, QuotaService } from "app/services";
+import { AccountService, ElectronShell, QuotaService } from "app/services";
 
 import { ContextMenu, ContextMenuItem, ContextMenuService } from "@batch-flask/ui/context-menu";
 import { Constants } from "common";
@@ -29,6 +29,7 @@ export class AccountQuotasCardComponent implements OnDestroy, OnInit {
 
     constructor(
         private quotaService: QuotaService,
+        private accountService: AccountService,
         private changeDetector: ChangeDetectorRef,
         private contextMenuService: ContextMenuService,
         private shell: ElectronShell) {
@@ -61,6 +62,11 @@ export class AccountQuotasCardComponent implements OnDestroy, OnInit {
     }
 
     private _gotoQuotaRequest() {
-        this.shell.openExternal(Constants.ExternalLinks.supportRequest);
+        this.accountService.currentAccount.first().subscribe((account) => {
+            const {tenantId, subscriptionId} = account.subscription;
+            const quotaUrl = Constants.ExternalLinks.requestQuota.format(tenantId, subscriptionId);
+            this.shell.openExternal(quotaUrl);
+            console.log("Url", quotaUrl);
+        });
     }
 }

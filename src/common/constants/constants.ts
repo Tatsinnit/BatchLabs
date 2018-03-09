@@ -113,6 +113,7 @@ export const ApiVersion = {
 export const ExternalLinks = {
     supportRequest: "https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/newsupportrequest",
     setupStorageAccount: "https://portal.azure.com/#resource{0}/storageAccount",
+    requestQuota: "https://portal.azure.com/#@{0}/resource/subscriptions/{1}/quotas",
 };
 
 export const ODataFields = {
